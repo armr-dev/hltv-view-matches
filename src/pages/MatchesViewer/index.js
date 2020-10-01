@@ -14,9 +14,9 @@ export default class MatchesViewer extends Component {
 
   componentWillMount() {
     const matches = JSON.parse(localStorage.getItem("matches"));
-    const fixedMatches = matches;
+    const fixedMatches = [...matches];
 
-    console.log("MATCHES: ", matches);
+    console.log("MATCHES: ", fixedMatches);
 
     if (matches === null) {
       return;

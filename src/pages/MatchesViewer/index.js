@@ -25,14 +25,12 @@ export default class MatchesViewer extends Component {
     this.setState({ matches, fixedMatches });
   }
 
-  updateSearch = async (e) => {
-    await this.setState({ searchTerm: e.target.value });
-    this.filterData();
-  };
-
-  filterData = () => {
+  filterData = (e) => {
     const { searchTerm, fixedMatches } = this.state;
     var re = new RegExp(searchTerm, "gi");
+
+    this.setState({ searchTerm: e.target.value });
+
     const newMatches = fixedMatches.filter((item) => {
       if (item.team1 && item.team2 !== undefined) {
         return item.team1.name.match(re) || item.team2.name.match(re);
@@ -56,7 +54,7 @@ export default class MatchesViewer extends Component {
             icon="search"
             placeholder="Type team name to add to the tracklist."
             className="search-input"
-            onChange={this.updateSearch}
+            onChange={this.filterData}
           />
           <p>
             {matches.length} matches were found.{" "}

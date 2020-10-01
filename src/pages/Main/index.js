@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Input, Card } from "semantic-ui-react";
 
+import Match from "../../components/Match";
+
 import "../../styles/main.css";
 
 export default class Main extends Component {
@@ -14,7 +16,7 @@ export default class Main extends Component {
     const matches = JSON.parse(localStorage.getItem("matches"));
     const fixedMatches = matches;
 
-    console.log("FIXED: ", matches);
+    console.log("MATCHES: ", matches);
 
     this.setState({ matches, fixedMatches });
   }
@@ -53,6 +55,13 @@ export default class Main extends Component {
             onChange={this.updateSearch}
           />
           <p>{matches.length} matches were found.</p>
+        </div>
+        <div className="content-wrapper">
+          <Card.Group centered>
+            {matches.map((item) => {
+              return <Match match={item} />;
+            })}
+          </Card.Group>
         </div>
       </div>
     );

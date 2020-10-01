@@ -13,4 +13,10 @@ https://www.npmjs.com/package/hltv#getmatches
 Biblioteca de interface utilizada foi o Semantic-UI. Pode ser encontrado nesse site:
 https://react.semantic-ui.com/
 
-
+#### TO-DO
+ - Desenvolver funcionalidade de adicionar "times favoritos";
+ - Adicionar filtros às partidas;
+ - Exibir última vez que foram buscadas as partidas;
+ - Adicionar link à partida no HLTV;
+ - Adicionar link ao time no HLTV;
+ - Melhorar a UI dos cards de partidas;

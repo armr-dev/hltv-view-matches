@@ -3,9 +3,9 @@ import { Input, Card } from "semantic-ui-react";
 
 import Match from "../../components/Match";
 
-import "../../styles/main.css";
+import "../../styles/matchesViewer.css";
 
-export default class Main extends Component {
+export default class MatchesViewer extends Component {
   state = {
     matches: [],
     fixedMatches: [],

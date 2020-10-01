@@ -11,6 +11,7 @@ export default class Header extends Component {
     });
     const matches = await myHLTV.getMatches().then((res) => res);
     localStorage.setItem("matches", JSON.stringify(matches));
+    window.location.reload(false);
   };
 
   render() {

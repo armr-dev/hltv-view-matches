@@ -18,7 +18,9 @@ export default class Header extends Component {
     return (
       <div className="header-wrapper">
         <div className="title">HLTV - Matches Viewer</div>
-        <Button onClick={this.fetchMatches}>Fetch Matches</Button>
+        <Button color="green" onClick={this.fetchMatches}>
+          Fetch Matches
+        </Button>
       </div>
     );
   }

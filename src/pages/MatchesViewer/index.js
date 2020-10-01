@@ -3,9 +3,9 @@ import { Input, Card } from "semantic-ui-react";
 
 import Match from "../../components/Match";
 
-import "../../styles/main.css";
+import "../../styles/matchesViewer.css";
 
-export default class Main extends Component {
+export default class MatchesViewer extends Component {
   state = {
     matches: [],
     fixedMatches: [],
@@ -14,9 +14,9 @@ export default class Main extends Component {
 
   componentWillMount() {
     const matches = JSON.parse(localStorage.getItem("matches"));
-    const fixedMatches = matches;
+    const fixedMatches = [...matches];
 
-    console.log("MATCHES: ", matches);
+    console.log("MATCHES: ", fixedMatches);
 
     if (matches === null) {
       return;
@@ -25,14 +25,12 @@ export default class Main extends Component {
     this.setState({ matches, fixedMatches });
   }
 
-  updateSearch = async (e) => {
-    await this.setState({ searchTerm: e.target.value });
-    this.filterData();
-  };
-
-  filterData = () => {
+  filterData = (e) => {
     const { searchTerm, fixedMatches } = this.state;
     var re = new RegExp(searchTerm, "gi");
+
+    this.setState({ searchTerm: e.target.value });
+
     const newMatches = fixedMatches.filter((item) => {
       if (item.team1 && item.team2 !== undefined) {
         return item.team1.name.match(re) || item.team2.name.match(re);
@@ -56,7 +54,7 @@ export default class Main extends Component {
             icon="search"
             placeholder="Type team name to add to the tracklist."
             className="search-input"
-            onChange={this.updateSearch}
+            onChange={this.filterData}
           />
           <p>
             {matches.length} matches were found.{" "}

@@ -1,14 +1,14 @@
 import React from "react";
 
 import Header from "./components/Header";
-import Main from "./pages/Main";
+import MatchesViewer from "./pages/MatchesViewer";
 import "semantic-ui-css/semantic.min.css";
 
 function App() {
   return (
     <div>
       <Header />
-      <Main />
+      <MatchesViewer />
     </div>
   );
 }

@@ -54,7 +54,11 @@ export default class Main extends Component {
             className="search-input"
             onChange={this.updateSearch}
           />
-          <p>{matches.length} matches were found.</p>
+          <p>
+            {matches
+              ? matches.length + "matches were found."
+              : "No matches fetched. Please, click the 'Fetch Matches' button."}
+          </p>
         </div>
         <div className="content-wrapper">
           <Card.Group centered>

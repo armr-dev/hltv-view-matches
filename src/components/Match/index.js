@@ -38,15 +38,19 @@ export default class Match extends Component {
           </Card.Header>
           <Card.Meta>{match.event ? match.event.name : "Undefined"}</Card.Meta>
           <Card.Content className="card-content">
-            <div className="date-wrapper">
-              <div className="month">
-                {new Intl.DateTimeFormat("en-US", { month: "long" }).format(
-                  date
-                )}
+            {!isNaN(date) ? (
+              <div className="date-wrapper">
+                <div className="month">
+                  {new Intl.DateTimeFormat("en-US", { month: "long" }).format(
+                    date
+                  )}
+                </div>
+                <div className="day">{date.getDate()}</div>
+                <div className="year">{date.getFullYear()}</div>
               </div>
-              <div className="day">{date.getDate()}</div>
-              <div className="year">{date.getFullYear()}</div>
-            </div>
+            ) : (
+              <div className="happening-wrapper">Happening now!</div>
+            )}
           </Card.Content>
         </Card.Content>
       </Card>

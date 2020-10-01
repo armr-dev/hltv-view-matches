@@ -18,6 +18,10 @@ export default class Main extends Component {
 
     console.log("MATCHES: ", matches);
 
+    if (matches === null) {
+      return;
+    }
+
     this.setState({ matches, fixedMatches });
   }
 
@@ -55,9 +59,10 @@ export default class Main extends Component {
             onChange={this.updateSearch}
           />
           <p>
-            {matches
-              ? matches.length + "matches were found."
-              : "No matches fetched. Please, click the 'Fetch Matches' button."}
+            {matches.length} matches were found.{" "}
+            {matches.length === 0
+              ? "No matches fetched. Please, click the 'Fetch Matches' button."
+              : null}
           </p>
         </div>
         <div className="content-wrapper">

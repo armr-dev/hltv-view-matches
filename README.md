@@ -17,6 +17,6 @@ https://react.semantic-ui.com/
  - Desenvolver funcionalidade de adicionar "times favoritos";
  - Adicionar filtros às partidas;
  - ~~Exibir última vez que foram buscadas as partidas;~~
- - Adicionar link à partida no HLTV;
+ - ~~Adicionar link à partida no HLTV;~~
  - Adicionar link ao time no HLTV;
  - Melhorar a UI dos cards de partidas;

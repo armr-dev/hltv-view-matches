@@ -23,9 +23,7 @@ export default class Match extends Component {
     }
   };
 
-  generateMatchLink = () => {
-    let { match } = this.props;
-
+  generateMatchLink = (match) => {
     const baseUrl = `https://hltv.org/matches/${match.id}/`;
 
     const team1 = match.team1.name.replace(/[\s/]/g, "-") + "-vs-";
@@ -38,7 +36,11 @@ export default class Match extends Component {
   };
 
   handleClick = () => {
-    window.open(this.generateMatchLink(), "_blank");
+    let { match } = this.props;
+
+    if (match.team1 !== undefined) {
+      window.open(this.generateMatchLink(match), "_blank");
+    }
   };
 
   render() {

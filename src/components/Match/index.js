@@ -25,7 +25,6 @@ export default class Match extends Component {
 
   render() {
     let { match } = this.props;
-
     const date = new Date(match.date);
 
     return (

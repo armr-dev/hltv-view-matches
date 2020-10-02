@@ -5,7 +5,6 @@ import HLTV from "hltv";
 
 export default class Match extends Component {
   state = {
-    teamNames: [],
     teamsId: [],
   };
 
@@ -43,6 +42,23 @@ export default class Match extends Component {
     }
   };
 
+  formatTime = (date) => {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
+
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+
+    console.log("HOURS: ", hours);
+
+    return hours + ":" + minutes;
+  };
+
   render() {
     let { match } = this.props;
     const date = new Date(match.date);
@@ -56,16 +72,19 @@ export default class Match extends Component {
               (match.team2 !== undefined ? match.team2.name : "Undefined")}
           </Card.Header>
           <Card.Meta>{match.event ? match.event.name : match.title}</Card.Meta>
-          <Card.Content className="card-content">
+          <Card.Content>
             {!isNaN(date) ? (
-              <div className="date-wrapper">
-                <div className="month">
-                  {new Intl.DateTimeFormat("en-US", { month: "long" }).format(
-                    date
-                  )}
+              <div className="card-content">
+                <div className="date-wrapper">
+                  <div className="month">
+                    {new Intl.DateTimeFormat("en-US", { month: "long" }).format(
+                      date
+                    )}
+                  </div>
+                  <div className="day">{date.getDate()}</div>
+                  <div className="year">{date.getFullYear()}</div>
                 </div>
-                <div className="day">{date.getDate()}</div>
-                <div className="year">{date.getFullYear()}</div>
+                <div className="time">{this.formatTime(date)}</div>
               </div>
             ) : (
               <div className="happening-wrapper">Happening now!</div>

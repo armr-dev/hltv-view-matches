@@ -31,14 +31,21 @@ body {
 }
 
 .date-wrapper {
-  margin-top: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: lightsteelblue;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #101e427e;
   border-radius: 4px;
   padding: 8px;
+  margin-top: 8px;
 }
 
 .happening-wrapper {
@@ -47,8 +54,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: greenyellow;
-  color: black;
+  background-color: #21ba45;
+  color: white;
   font-size: 16px;
   font-weight: bold;
   border-radius: 4px;
@@ -79,5 +86,11 @@ body {
   margin-top: 16px;
   color: white;
   font-size: 16px;
+  font-weight: bold;
+}
+
+.time {
+  color: white;
+  font-size: 28px;
   font-weight: bold;
 }

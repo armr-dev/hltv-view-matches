@@ -14,15 +14,13 @@ export default class MatchesViewer extends Component {
 
   componentWillMount() {
     const matches = JSON.parse(localStorage.getItem("matches"));
-    const fixedMatches = [...matches];
-
-    console.log("MATCHES: ", fixedMatches);
 
     if (matches === null) {
       return;
+    } else {
+      const fixedMatches = [...matches];
+      this.setState({ matches, fixedMatches });
     }
-
-    this.setState({ matches, fixedMatches });
   }
 
   filterData = (e) => {
@@ -47,6 +45,7 @@ export default class MatchesViewer extends Component {
 
   render() {
     let { matches } = this.state;
+
     return (
       <div className="main-wrapper">
         <div className="search-wrapper">

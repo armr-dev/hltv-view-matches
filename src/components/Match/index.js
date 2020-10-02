@@ -23,19 +23,39 @@ export default class Match extends Component {
     }
   };
 
+  generateMatchLink = (match) => {
+    const baseUrl = `https://hltv.org/matches/${match.id}/`;
+
+    const team1 = match.team1.name.replace(/[\s/]/g, "-") + "-vs-";
+    const team2 = match.team2.name.replace(/[\s/]/g, "-") + "-";
+    const event = match.event.name.replace(/[\s/]/g, "-");
+
+    const finalUrl = (baseUrl + team1 + team2 + event).toLowerCase();
+
+    return finalUrl;
+  };
+
+  handleClick = () => {
+    let { match } = this.props;
+
+    if (match.team1 !== undefined) {
+      window.open(this.generateMatchLink(match), "_blank");
+    }
+  };
+
   render() {
     let { match } = this.props;
     const date = new Date(match.date);
 
     return (
-      <Card>
+      <Card onClick={this.handleClick}>
         <Card.Content>
           <Card.Header>
             {(match.team1 !== undefined ? match.team1.name : "Undefined") +
               " vs. " +
               (match.team2 !== undefined ? match.team2.name : "Undefined")}
           </Card.Header>
-          <Card.Meta>{match.event ? match.event.name : "Undefined"}</Card.Meta>
+          <Card.Meta>{match.event ? match.event.name : match.title}</Card.Meta>
           <Card.Content className="card-content">
             {!isNaN(date) ? (
               <div className="date-wrapper">

@@ -5,7 +5,6 @@ import HLTV from "hltv";
 
 export default class Match extends Component {
   state = {
-    teamNames: [],
     teamsId: [],
   };
 

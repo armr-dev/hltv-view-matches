@@ -53,7 +53,7 @@ export default class Match extends Component {
               " vs. " +
               (match.team2 !== undefined ? match.team2.name : "Undefined")}
           </Card.Header>
-          <Card.Meta>{match.event ? match.event.name : "Undefined"}</Card.Meta>
+          <Card.Meta>{match.event ? match.event.name : match.title}</Card.Meta>
           <Card.Content className="card-content">
             {!isNaN(date) ? (
               <div className="date-wrapper">

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Card } from "semantic-ui-react";
+import { Input, Card, Icon } from "semantic-ui-react";
 
 import Match from "../../components/Match";
 
@@ -9,11 +9,14 @@ export default class MatchesViewer extends Component {
   state = {
     matches: [],
     fixedMatches: [],
+    filterVisible: true,
     searchTerm: "",
   };
 
   componentDidMount() {
     const matches = JSON.parse(localStorage.getItem("matches"));
+
+    console.log("MATCHES: ", matches);
 
     if (matches === null) {
       return;
@@ -23,43 +26,79 @@ export default class MatchesViewer extends Component {
     }
   }
 
-  filterData = (e) => {
+  filterData = (e, name) => {
     const { fixedMatches } = this.state;
     const searchTerm = e.target.value;
     this.setState({ searchTerm });
 
+    let newMatches;
     var re = new RegExp(searchTerm, "gi");
-
-    let newMatches = fixedMatches.filter((item) => {
-      if (item.team1 && item.team2 !== undefined) {
-        return item.team1.name.match(re) || item.team2.name.match(re);
-      } else if (item.team1 !== undefined) {
-        return item.team1.name.match(re);
-      } else if (item.team2 !== undefined) {
-        return item.team2.name.match(re);
-      } else {
-        if (searchTerm === "") {
-          return item;
+    if (name === "team") {
+      newMatches = fixedMatches.filter((item) => {
+        if (item.team1 && item.team2 !== undefined) {
+          return item.team1.name.match(re) || item.team2.name.match(re);
+        } else if (item.team1 !== undefined) {
+          return item.team1.name.match(re);
+        } else if (item.team2 !== undefined) {
+          return item.team2.name.match(re);
+        } else {
+          if (searchTerm === "") {
+            return item;
+          }
+          return "";
         }
-        return "";
-      }
-    });
+      });
+    } else if (name === "event") {
+      newMatches = fixedMatches.filter((item) => {
+        if (item.event !== undefined) {
+          return item.event.name.match(re);
+        } else {
+          return item.title.match(re);
+        }
+      });
+    }
 
     this.setState({ matches: newMatches });
   };
 
   render() {
-    let { matches } = this.state;
+    let { matches, filterVisible } = this.state;
 
     return (
       <div className="main-wrapper">
-        <div className="search-wrapper">
-          <Input
-            icon="search"
-            placeholder="Search matches by team name."
-            className="search-input"
-            onChange={this.filterData}
-          />
+        <div className="search-filter-wrapper">
+          <div className="search-wrapper">
+            <Input
+              icon="search"
+              placeholder="Search matches by team name."
+              className="search-input"
+              onChange={(e) => {
+                this.filterData(e, "team");
+              }}
+            />
+            <Icon
+              link
+              circular
+              inverted
+              color="black"
+              name="filter"
+              onClick={() => {
+                this.setState({ filterVisible: !filterVisible });
+              }}
+            />
+          </div>
+          {filterVisible ? (
+            <div className="filter-wrapper">
+              <Input
+                icon="search"
+                placeholder="Search matches by event."
+                className="search-input"
+                onChange={(e) => {
+                  this.filterData(e, "event");
+                }}
+              />
+            </div>
+          ) : null}
           <p>
             {matches.length} matches were found.{" "}
             {matches.length === 0

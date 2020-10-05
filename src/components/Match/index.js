@@ -54,8 +54,6 @@ export default class Match extends Component {
       minutes = "0" + minutes;
     }
 
-    console.log("HOURS: ", hours);
-
     return hours + ":" + minutes;
   };
 

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Input, Card, Icon } from "semantic-ui-react";
+import SemanticDatepicker from "react-semantic-ui-datepickers";
 
 import Match from "../../components/Match";
 
@@ -61,8 +62,29 @@ export default class MatchesViewer extends Component {
     this.setState({ matches: newMatches });
   };
 
+  filterByDate = (e, data) => {
+    const { fixedMatches } = this.state;
+    const selectedDate = data.value;
+
+    if (selectedDate.length !== 1) {
+      selectedDate[1].setDate(selectedDate[1].getDate() + 1);
+    }
+
+    this.setState({ selectedDate });
+
+    let newMatches = fixedMatches.filter((item) => {
+      if (selectedDate === null || selectedDate.length === 1) {
+        return fixedMatches;
+      } else if (item.date >= selectedDate[0] && item.date <= selectedDate[1]) {
+        return item;
+      }
+    });
+
+    this.setState({ matches: newMatches });
+  };
+
   render() {
-    let { matches, filterVisible } = this.state;
+    let { fixedMatches, matches, filterVisible } = this.state;
 
     return (
       <div className="main-wrapper">
@@ -97,11 +119,21 @@ export default class MatchesViewer extends Component {
                   this.filterData(e, "event");
                 }}
               />
+              <SemanticDatepicker
+                minDate={Date.now() - 86400000} // calcula o dia anterior
+                format={"MMMM, Do - YYYY"}
+                placeholder="Initial date"
+                type="range"
+                pointing="right"
+                onChange={(e, data) => {
+                  this.filterByDate(e, data);
+                }}
+              />
             </div>
           ) : null}
           <p>
             {matches.length} matches were found.{" "}
-            {matches.length === 0
+            {fixedMatches.length === 0
               ? "No matches fetched. Please, click the 'Fetch Matches' button."
               : null}
           </p>

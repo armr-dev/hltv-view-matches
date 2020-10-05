@@ -41,6 +41,7 @@ export default class MatchesViewer extends Component {
         if (searchTerm === "") {
           return item;
         }
+        return "";
       }
     });
 
@@ -55,7 +56,7 @@ export default class MatchesViewer extends Component {
         <div className="search-wrapper">
           <Input
             icon="search"
-            placeholder="Type team name to add to the tracklist."
+            placeholder="Search matches by team name."
             className="search-input"
             onChange={this.filterData}
           />
@@ -69,7 +70,7 @@ export default class MatchesViewer extends Component {
         <div className="content-wrapper">
           <Card.Group centered>
             {matches.map((item) => {
-              return <Match match={item} />;
+              return <Match match={item} key={item.id} />;
             })}
           </Card.Group>
         </div>

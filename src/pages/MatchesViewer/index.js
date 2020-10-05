@@ -12,7 +12,7 @@ export default class MatchesViewer extends Component {
     searchTerm: "",
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const matches = JSON.parse(localStorage.getItem("matches"));
 
     if (matches === null) {
@@ -24,12 +24,13 @@ export default class MatchesViewer extends Component {
   }
 
   filterData = (e) => {
-    const { searchTerm, fixedMatches } = this.state;
+    const { fixedMatches } = this.state;
+    const searchTerm = e.target.value;
+    this.setState({ searchTerm });
+
     var re = new RegExp(searchTerm, "gi");
 
-    this.setState({ searchTerm: e.target.value });
-
-    const newMatches = fixedMatches.filter((item) => {
+    let newMatches = fixedMatches.filter((item) => {
       if (item.team1 && item.team2 !== undefined) {
         return item.team1.name.match(re) || item.team2.name.match(re);
       } else if (item.team1 !== undefined) {
@@ -37,9 +38,12 @@ export default class MatchesViewer extends Component {
       } else if (item.team2 !== undefined) {
         return item.team2.name.match(re);
       } else {
-        return "";
+        if (searchTerm === "") {
+          return item;
+        }
       }
     });
+
     this.setState({ matches: newMatches });
   };
 

@@ -29,11 +29,20 @@ body {
   margin-right: 12px;
 }
 
+.event-input {
+  width: 30%;
+  margin-right: 12px;
+}
+
 .filter-wrapper {
   margin-bottom: 12px;
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.datepicker {
+  margin-right: 12px;
 }
 
 .content-wrapper {

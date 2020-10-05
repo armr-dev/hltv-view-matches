@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Card, Icon } from "semantic-ui-react";
+import { Input, Card, Icon, Button } from "semantic-ui-react";
 import SemanticDatepicker from "react-semantic-ui-datepickers";
 
 import Match from "../../components/Match";
@@ -12,6 +12,8 @@ export default class MatchesViewer extends Component {
     fixedMatches: [],
     filterVisible: true,
     searchTerm: "",
+    selectedDate: [],
+    defaultDate: [],
   };
 
   componentDidMount() {
@@ -23,60 +25,75 @@ export default class MatchesViewer extends Component {
       return;
     } else {
       const fixedMatches = [...matches];
-      this.setState({ matches, fixedMatches });
+      const selectedDate = [matches[0].date, matches[matches.length - 1].date];
+      const defaultDate = [...selectedDate];
+      this.setState({ matches, fixedMatches, selectedDate, defaultDate });
     }
   }
 
-  filterData = (e, name) => {
+  searchTeam = (e) => {
     const { fixedMatches } = this.state;
     const searchTerm = e.target.value;
     this.setState({ searchTerm });
 
     let newMatches;
     var re = new RegExp(searchTerm, "gi");
-    if (name === "team") {
-      newMatches = fixedMatches.filter((item) => {
-        if (item.team1 && item.team2 !== undefined) {
-          return item.team1.name.match(re) || item.team2.name.match(re);
-        } else if (item.team1 !== undefined) {
-          return item.team1.name.match(re);
-        } else if (item.team2 !== undefined) {
-          return item.team2.name.match(re);
-        } else {
-          if (searchTerm === "") {
-            return item;
-          }
-          return "";
+    newMatches = fixedMatches.filter((item) => {
+      if (item.team1 && item.team2 !== undefined) {
+        return item.team1.name.match(re) || item.team2.name.match(re);
+      } else if (item.team1 !== undefined) {
+        return item.team1.name.match(re);
+      } else if (item.team2 !== undefined) {
+        return item.team2.name.match(re);
+      } else {
+        if (searchTerm === "") {
+          return item;
         }
-      });
-    } else if (name === "event") {
-      newMatches = fixedMatches.filter((item) => {
-        if (item.event !== undefined) {
-          return item.event.name.match(re);
-        } else {
-          return item.title.match(re);
-        }
-      });
-    }
+        return "";
+      }
+    });
 
     this.setState({ matches: newMatches });
   };
 
-  filterByDate = (e, data) => {
-    const { fixedMatches } = this.state;
-    const selectedDate = data.value;
+  searchEvent = (e) => {
+    const searchEvent = e.target.value;
 
-    if (selectedDate.length !== 1) {
+    this.setState({ searchEvent });
+  };
+
+  selectDate = (e, data) => {
+    const { defaultDate } = this.state;
+    let selectedDate = data.value;
+
+    if (selectedDate === null) {
+      selectedDate = [...defaultDate];
+
+      this.setState({ selectedDate });
+    } else if (selectedDate.length > 1) {
       selectedDate[1].setDate(selectedDate[1].getDate() + 1);
-    }
 
-    this.setState({ selectedDate });
+      this.setState({ selectedDate });
+    }
+  };
+
+  filter = () => {
+    const { fixedMatches, selectedDate, searchEvent } = this.state;
+    var re = new RegExp(searchEvent, "gi");
 
     let newMatches = fixedMatches.filter((item) => {
       if (selectedDate === null || selectedDate.length === 1) {
         return fixedMatches;
       } else if (item.date >= selectedDate[0] && item.date <= selectedDate[1]) {
         return item;
+      }
+    });
+
+    newMatches = newMatches.filter((item) => {
+      if (item.event !== undefined) {
+        return item.event.name.match(re);
+      } else {
+        return item.title.match(re);
       }
     });
 
@@ -95,7 +112,7 @@ export default class MatchesViewer extends Component {
               placeholder="Search matches by team name."
               className="search-input"
               onChange={(e) => {
-                this.filterData(e, "team");
+                this.searchTeam(e);
               }}
             />
             <Icon
@@ -114,21 +131,27 @@ export default class MatchesViewer extends Component {
               <Input
                 icon="search"
                 placeholder="Search matches by event."
-                className="search-input"
+                className="event-input"
+                clear
                 onChange={(e) => {
-                  this.filterData(e, "event");
+                  this.searchEvent(e);
                 }}
               />
               <SemanticDatepicker
+                className="datepicker"
                 minDate={Date.now() - 86400000} // calcula o dia anterior
                 format={"MMMM, Do - YYYY"}
-                placeholder="Initial date"
+                placeholder="Select dates"
                 type="range"
                 pointing="right"
+                datePickerOnly
                 onChange={(e, data) => {
-                  this.filterByDate(e, data);
+                  this.selectDate(e, data);
                 }}
               />
+              <Button onClick={this.filter} className="filter-btn">
+                Filter
+              </Button>
             </div>
           ) : null}
           <p>
